@@ -59,21 +59,19 @@ RUN ./autogen.sh \
     --disable-dbgutil \
     --disable-extension-integration \
     --disable-extension-update \
-    --disable-firebird-sdbc \
     --disable-gio \
-    --disable-gstreamer-0-10 \
     --disable-gstreamer-1-0 \
-    --disable-gtk \
     --disable-gtk3 \
     --disable-introspection \
-    --disable-kde4 \
     --disable-largefile \
-    --disable-lotuswordpro \
     --disable-lpsolve \
     --disable-odk \
     --disable-ooenv \
     --disable-pch \
     --disable-postgresql-sdbc \
+    --disable-mariadb-sdbc \
+    --disable-lotuswordpro \
+    --disable-firebird-sdbc \
     --disable-python \
     --disable-randr \
     --disable-report-builder \
@@ -83,11 +81,6 @@ RUN ./autogen.sh \
     --disable-sdremote-bluetooth \
     --enable-mergelibs \
     --with-galleries="no" \
-    --with-system-curl \
-    --with-system-expat \
-    --with-system-libxml \
-    --with-system-nss \
-    --with-system-openssl \
     --with-theme="no" \
     --without-export-validation \
     --without-fonts \
@@ -96,7 +89,10 @@ RUN ./autogen.sh \
     --without-junit \
     --without-krb5 \
     --without-myspell-dicts \
-    --without-system-dicts
+    --without-system-dicts \
+    --disable-gui \
+    --disable-ldap \
+    --with-webdav=no
 
 # Disable flaky unit test failing on macos (and for some reason on Amazon Linux as well)
 # find the line "void PdfExportTest::testSofthyphenPos()" (around 600)
