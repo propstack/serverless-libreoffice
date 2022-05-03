@@ -69,7 +69,6 @@ RUN ./autogen.sh \
     --disable-ooenv \
     --disable-pch \
     --disable-postgresql-sdbc \
-    --disable-mariadb-sdbc \
     --disable-lotuswordpro \
     --disable-firebird-sdbc \
     --disable-python \
