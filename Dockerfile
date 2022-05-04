@@ -181,11 +181,11 @@ RUN yum install -y make zip unzip bc autoconf automake libtool \
 
 COPY --from=lobuild /tmp/lo.tar .
 
-RUN brotli --best /tmp/lo.tar && zip -r layers.zip lo.tar.br
+RUN brotli --best /tmp/lo.tar && zip -r layer.zip lo.tar.br
 
 FROM public.ecr.aws/lambda/nodejs:14.2022.02.01.09-x86_64
 
-COPY --from=brotli /tmp/layers.zip /tmp
+COPY --from=brotli /tmp/layer.zip /tmp
 
 # overwrite entrypoint as aws base image tries to run a handler function
 ENTRYPOINT []
