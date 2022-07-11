@@ -43,6 +43,7 @@ ARN_FILE="$ARN_DIR/$TARGET.csv"
 LAYER_NAME=$TARGET
 LAYER_ZIP="layer.zip"
 REGIONS=$(cat config/regions.txt)
+BUCKET=temppropstack
 
 if [ ! -f "$LAYER_ZIP" ]; then
     echo "No layer zip"
@@ -64,6 +65,7 @@ rm -rf $ARN_DIR && mkdir -p $ARN_DIR
 echo "Region,ARN" >$ARN_FILE
 for region in $REGIONS; do
     printf "%s\n" "Region: $region"
+    aws s3 cp $LAYER_ZIP s3://$BUCKET/layers/$LAYER_ZIP
     OUTPUT=$(
         aws lambda publish-layer-version \
         --description "$LAYER_DESCRIPTION" \
@@ -71,19 +73,19 @@ for region in $REGIONS; do
         --output text \
         --query "[LayerVersionArn, Version]" \
         --region "$region" \
-        --zip-file "fileb://$LAYER_ZIP"
+        --content S3Bucket=$BUCKET,S3Key=layers/$LAYER_ZIP
     )
     LAYER_VERSION_ARN=$(echo $OUTPUT | awk '{print $1}')
     LAYER_VERSION=$(echo $OUTPUT | awk '{print $2}')
-    aws lambda add-layer-version-permission \
-    --action lambda:GetLayerVersion \
-    --layer-name "$LAYER_NAME" \
-    --output text \
-    --principal "*" \
-    --query "Statement" \
-    --region "$region" \
-    --statement-id public \
-    --version-number "$LAYER_VERSION"
+    # aws lambda add-layer-version-permission \
+    # --action lambda:GetLayerVersion \
+    # --layer-name "$LAYER_NAME" \
+    # --output text \
+    # --principal "*" \
+    # --query "Statement" \
+    # --region "$region" \
+    # --statement-id public \
+    # --version-number "$LAYER_VERSION"
     echo "$region,$LAYER_VERSION_ARN" >>$ARN_FILE
     printf "\n"
 done
