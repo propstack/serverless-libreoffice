@@ -1,8 +1,8 @@
-version: '3.7'
+version: "3.7"
 services:
   libreoffice:
     image: vladgolubev/serverless-libreoffice
     build: .
     volumes:
       - .:/host
-    command: 'cp /tmp/layers.zip /host'
+    command: "cp /tmp/layer.zip /host"
